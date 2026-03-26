@@ -1,5 +1,16 @@
+const ALLOWED_ORIGINS = [
+  'https://project-iw76s.vercel.app',
+  'https://fc.great-site.net',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'null', // file:// local files — browsers send Origin: null for these
+];
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
